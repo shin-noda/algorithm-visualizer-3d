@@ -1,0 +1,10 @@
+.algo-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 220px); /* fixed card width */
+  justify-content: center; /* center cards on wide screens */
+  gap: 1.5rem; /* space between cards */
+  width: 100%;
+  padding: 1rem 0;
+}
+
+/* optional: if you want cards to have fixed height as well, we can define it in AlgoCard.css */

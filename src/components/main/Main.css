@@ -1,0 +1,16 @@
+.main {
+  flex: 1;
+  padding: 2rem;
+  font-family: system-ui, sans-serif;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-header {
+  margin-top: -10px;
+  padding: 0;
+  font-size: 2rem;
+}

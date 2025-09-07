@@ -1,0 +1,11 @@
+.header-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-left: 10px;
+  color: #000;
+  text-decoration: none;
+}
+
+.header-logo:hover {
+  color: #38bdf8;
+}
