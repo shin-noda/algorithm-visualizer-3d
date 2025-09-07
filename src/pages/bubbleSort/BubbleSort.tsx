@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Text } from "@react-three/drei";
 
 // components
 import MiddleBar from "../../components/middleBar/MiddleBar";
 import ComplexityTable from "../../components/complexityTable/ComplexityTable";
+import SortingScene from "../../scenes/sortingScene/SortingScene";
 
 // css
 import "./BubbleSort.css";
@@ -12,53 +12,10 @@ import "./BubbleSort.css";
 // Constants
 const ARRAY_SIZE = 10;
 const MAX_VALUE = 50;
-const MAX_BAR_HEIGHT = 5; // tallest bar height in 3D units
 
 // Generate random array
 const generateArray = (size: number, maxVal: number) =>
   Array.from({ length: size }, () => Math.floor(Math.random() * maxVal) + 1);
-
-const BubbleSortScene = ({
-  arr,
-  comparing,
-  swapping,
-}: {
-  arr: number[];
-  comparing: number[];
-  swapping: number[];
-}) => {
-  const maxVal = Math.max(...arr);
-
-  return (
-    <>
-      {arr.map((value, index) => {
-        const height = (value / maxVal) * MAX_BAR_HEIGHT;
-
-        let color = 0x38bdf8; // default blue
-        if (swapping.includes(index)) color = 0xf87171; // light red
-        else if (comparing.includes(index)) color = 0x90EE90; // light green
-
-        return (
-          <group key={index} position={[index - arr.length / 2, height / 2, 0]}>
-            <mesh>
-              <boxGeometry args={[0.8, height, 0.8]} />
-              <meshStandardMaterial color={color} />
-            </mesh>
-            <Text
-              position={[0, height / 2 + 0.5, 0]}
-              fontSize={0.5}
-              color="black"
-              anchorX="center"
-              anchorY="middle"
-            >
-              {value}
-            </Text>
-          </group>
-        );
-      })}
-    </>
-  );
-};
 
 const BubbleSort = () => {
   const [array] = useState(() => generateArray(ARRAY_SIZE, MAX_VALUE));
@@ -150,7 +107,13 @@ const BubbleSort = () => {
       <Canvas camera={{ position: [0, 10, 20], fov: 35 }} className="bubble-sort-canvas">
         <ambientLight />
         <pointLight position={[10, 20, 10]} />
-        <BubbleSortScene arr={arr} comparing={comparing} swapping={swapping} />
+        <SortingScene
+          arr={arr}
+          comparing={comparing}
+          swapping={swapping}
+          maxBarHeight={5}
+          barWidth={0.8}
+        />
       </Canvas>
     </div>
   );
