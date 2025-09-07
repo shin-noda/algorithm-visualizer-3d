@@ -1,0 +1,29 @@
+.bubble-sort-page {
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bubble-sort-page h1 {
+  margin: 0 0 1rem 0;
+  color: #000;
+}
+
+.bubble-sort-canvas {
+  width: 100%;
+  flex: 1; /* fills remaining vertical space */
+  display: block;
+}
+
+.bubble-bar {
+  background-color: #38bdf8;
+}
+
+.bubble-text {
+  color: black;
+  font-size: 0.5rem;
+}
