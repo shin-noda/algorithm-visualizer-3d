@@ -15,7 +15,7 @@ import './App.css'
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/algorithm-visualizer-3d">
       <div className="app">
         <Header />
         <Routes>
