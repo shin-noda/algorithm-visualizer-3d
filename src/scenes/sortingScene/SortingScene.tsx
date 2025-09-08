@@ -1,10 +1,10 @@
+// src/scenes/sortingScene/SortingScene.tsx
 import type { FC } from "react";
 import { Text } from "@react-three/drei";
 import "./SortingScene.css";
 
 interface SortingSceneProps {
   arr: number[];
-  comparing: number[];
   swapping: number[];
   maxBarHeight?: number;
   barWidth?: number;
@@ -12,7 +12,6 @@ interface SortingSceneProps {
 
 const SortingScene: FC<SortingSceneProps> = ({
   arr,
-  comparing,
   swapping,
   maxBarHeight = 5,
   barWidth = 0.8,
@@ -24,9 +23,8 @@ const SortingScene: FC<SortingSceneProps> = ({
       {arr.map((value, index) => {
         const height = (value / maxVal) * maxBarHeight;
 
-        let color = 0x38bdf8; // default blue
-        if (swapping.includes(index)) color = 0xf87171; // light red
-        else if (comparing.includes(index)) color = 0x90ee90; // light green
+        // Always blue; red for swapping only
+        const color = swapping.includes(index) ? 0xf87171 : 0x38bdf8;
 
         return (
           <group key={index} position={[index - arr.length / 2, height / 2, 0]}>
