@@ -1,0 +1,15 @@
+.insertion-sort-page {
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.insertion-sort-canvas {
+  width: 100%;
+  flex: 1; /* fills remaining vertical space */
+  display: block;
+}
