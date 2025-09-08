@@ -15,8 +15,7 @@
 
 .bubble-sort-canvas {
   width: 100%;
-  flex: 1; /* fills remaining vertical space */
-  display: block;
+  height: 300px;
 }
 
 .bubble-bar {

@@ -18,8 +18,11 @@ const SortingScene: FC<SortingSceneProps> = ({
 }) => {
   const maxVal = Math.max(...arr);
 
+  // Optional: offset all bars down by 1 or 2 units
+  const yOffset = -4;
+
   return (
-    <>
+    <group position={[0, yOffset, 0]}>
       {arr.map((value, index) => {
         const height = (value / maxVal) * maxBarHeight;
 
@@ -44,8 +47,9 @@ const SortingScene: FC<SortingSceneProps> = ({
           </group>
         );
       })}
-    </>
+    </group>
   );
 };
+
 
 export default SortingScene;
