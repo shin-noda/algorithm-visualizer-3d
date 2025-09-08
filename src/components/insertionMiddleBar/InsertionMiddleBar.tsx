@@ -5,7 +5,8 @@ interface InsertionMiddleBarProps {
   onClick: () => void;
   steps: number;
   comparisons: number;
-  moves: number; // instead of swaps
+  shifts: number;
+  inserts: number;
   isSorting: boolean;
   isFinished: boolean;
 }
@@ -14,7 +15,8 @@ const InsertionMiddleBar = ({
   onClick,
   steps,
   comparisons,
-  moves,
+  shifts,
+  inserts,
   isSorting,
   isFinished,
 }: InsertionMiddleBarProps) => {
@@ -40,7 +42,8 @@ const InsertionMiddleBar = ({
       <span className="middle-bar-text">
         Steps: {steps} |{" "}
         <span className="comparisons">Comparisons: {comparisons}</span> |{" "}
-        <span className="swaps">Moves: {moves}</span>
+        <span className="shifts">Shifts: {shifts}</span> |{" "}
+        <span className="inserts">Inserts: {inserts}</span>
       </span>
     </div>
   );

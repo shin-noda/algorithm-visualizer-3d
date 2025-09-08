@@ -2,7 +2,7 @@
 import "./StepsBoard.css";
 
 type Step = {
-  type: "comparison" | "swap";
+  type: "comparison" | "shift" | "insert"; // Corrected types
   indices: number[];
   array: number[]; // <-- store current array state in each step
 };
@@ -12,9 +12,22 @@ interface StepsBoardProps {
 }
 
 const StepsBoard = ({ steps }: StepsBoardProps) => {
+  const getProcedureName = (type: Step['type']) => {
+    switch (type) {
+      case "comparison":
+        return "Compare";
+      case "shift":
+        return "Shift";
+      case "insert":
+        return "Insert";
+      default:
+        return "Unknown";
+    }
+  };
+
   return (
     <div className="steps-board">
-      <h3>Steps History</h3>
+      <h2 className="board-header">Steps History</h2>
 
       <div className="steps-grid">
         <div className="row header">
@@ -27,7 +40,7 @@ const StepsBoard = ({ steps }: StepsBoardProps) => {
         {steps.map((step, idx) => (
           <div className="row" key={idx}>
             <div className="cell">{idx + 1}</div>
-            <div className="cell">{step.type === "comparison" ? "Compare" : "Swap"}</div>
+            <div className="cell">{getProcedureName(step.type)}</div>
             <div className="cell">[{step.indices.join(", ")}]</div>
             <div className="cell">[{step.array.join(", ")}]</div>
           </div>

@@ -7,6 +7,7 @@ import MiddleBar from "../../components/middleBar/MiddleBar";
 import ComplexityTable from "../../components/complexityTable/ComplexityTable";
 import SortingScene from "../../scenes/sortingScene/SortingScene";
 import Arrow from "../../components/arrow/Arrow";
+import StepsBoard from "../../components/stepsBoard/StepsBoard";
 
 // css
 import "./SelectionSort.css";
@@ -18,6 +19,12 @@ const MAX_VALUE = 100;
 // Generate random array
 const generateArray = (size: number, maxVal: number) =>
   Array.from({ length: size }, () => Math.floor(Math.random() * maxVal) + 1);
+
+type Step = {
+  type: "comparison" | "swap";
+  indices: number[];
+  array: number[];
+};
 
 const SelectionSort = () => {
   const [array] = useState(() => generateArray(ARRAY_SIZE, MAX_VALUE));
@@ -32,6 +39,7 @@ const SelectionSort = () => {
   const [comparing, setComparing] = useState<number | null>(null);
   const [currentMin, setCurrentMin] = useState<number | null>(null);
   const [swapping, setSwapping] = useState<number[]>([]);
+  const [stepHistory, setStepHistory] = useState<Step[]>([]);
 
   const startOrRestart = () => {
     if (!isSorting && i === 0 && j === 0) {
@@ -46,6 +54,7 @@ const SelectionSort = () => {
       setComparing(null);
       setCurrentMin(null);
       setSwapping([]);
+      setStepHistory([]);
     }
   };
 
@@ -71,6 +80,10 @@ const SelectionSort = () => {
 
         if (j !== minIndex) {
           setComparisons((prev) => prev + 1);
+          setStepHistory((prev) => [
+            ...prev,
+            { type: "comparison", indices: [j, minIndex], array: [...arr] },
+          ]);
         }
 
         if (newArr[j] < newArr[minIndex]) {
@@ -86,6 +99,10 @@ const SelectionSort = () => {
           setArr(newArr);
           setSwapping([i, minIndex]);
           setSwaps((prev) => prev + 1);
+          setStepHistory((prev) => [
+            ...prev,
+            { type: "swap", indices: [i, minIndex], array: [...newArr] },
+          ]);
 
           setTimeout(() => setSwapping([]), 300);
         }
@@ -103,7 +120,7 @@ const SelectionSort = () => {
   }, [isSorting, arr, i, j, minIndex]);
 
   return (
-    <div className="selection-sort-page">
+    <div className="main">
       <h1>Selection Sort</h1>
 
       <ComplexityTable
@@ -126,12 +143,7 @@ const SelectionSort = () => {
           <pointLight position={[10, 20, 10]} />
 
           {/* Bars */}
-          <SortingScene
-            arr={arr}
-            swapping={swapping}
-            maxBarHeight={5}
-            barWidth={0.8}
-          />
+          <SortingScene arr={arr} swapping={swapping} maxBarHeight={5} barWidth={0.8} />
 
           {/* Current comparison arrow (light green) */}
           {comparing !== null && <Arrow index={comparing} arr={arr} color="lightgreen" />}
@@ -140,6 +152,9 @@ const SelectionSort = () => {
           {currentMin !== null && <Arrow index={currentMin} arr={arr} color="orange" />}
         </Canvas>
       </div>
+
+      {/* Steps board */}
+      <StepsBoard steps={stepHistory} />
     </div>
   );
 };
