@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -9,18 +10,30 @@ const Navbar = () => {
     <nav className="navbar">
       {/* Horizontal links for wide screens */}
       <ul className="navbar-links-horizontal">
-        <li><a href="#sorting">Sorting</a></li>
-        <li><a href="#searching">Searching</a></li>
-        <li><a href="#dp">Dynamic Programming</a></li>
+        <li>
+          <Link to="/sorting">Sorting</Link>
+        </li>
+        <li>
+          <Link to="/searching">Searching</Link>
+        </li>
       </ul>
 
       {/* Fullscreen overlay menu for mobile */}
       <div className={`navbar-overlay ${isOpen ? "open" : ""}`}>
-        <button className="close-btn" onClick={toggleMenu}>×</button>
+        <button className="close-btn" onClick={toggleMenu}>
+          ×
+        </button>
         <ul className={`overlay-links ${isOpen ? "fade-in" : ""}`}>
-          <li><a href="#sorting" onClick={toggleMenu}>Sorting</a></li>
-          <li><a href="#searching" onClick={toggleMenu}>Searching</a></li>
-          <li><a href="#dp" onClick={toggleMenu}>Dynamic Programming</a></li>
+          <li>
+            <Link to="/sorting" onClick={toggleMenu}>
+              Sorting
+            </Link>
+          </li>
+          <li>
+            <Link to="/searching" onClick={toggleMenu}>
+              Searching
+            </Link>
+          </li>
         </ul>
       </div>
 

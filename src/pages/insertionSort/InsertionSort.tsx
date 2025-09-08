@@ -34,13 +34,13 @@ const Arrow = ({
   return (
     <group position={[index - arr.length / 2, height + 2, 0]}>
       {/* Shaft */}
-      <mesh position={[0, -0.5, 0]}>
+      <mesh position={[0, -4, 0]}>
         <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
         <meshStandardMaterial color={color} />
       </mesh>
 
       {/* Tip */}
-      <mesh position={[0, -1, 0]} rotation={[Math.PI, 0, 0]}>
+      <mesh position={[0, -4.5, 0]} rotation={[Math.PI, 0, 0]}>
         <coneGeometry args={[0.2, 0.3, 8]} />
         <meshStandardMaterial color={color} />
       </mesh>
@@ -146,21 +146,23 @@ const InsertionSort = () => {
         isFinished={isFinished}
       />
 
-      <Canvas camera={{ position: [0, 10, 20], fov: 35 }} className="insertion-sort-canvas">
-        <ambientLight />
-        <pointLight position={[10, 20, 10]} />
+      <div className="insertion-sort-canvas">
+        <Canvas camera={{ position: [0, 10, 20], fov: 20 }}>
+          <ambientLight />
+          <pointLight position={[10, 20, 10]} />
 
-        {/* Bars */}
-        <SortingScene
-          arr={arr}
-          swapping={swapping}
-          maxBarHeight={5}
-          barWidth={0.8}
-        />
+          {/* Bars */}
+          <SortingScene
+            arr={arr}
+            swapping={swapping}
+            maxBarHeight={5}
+            barWidth={0.8}
+          />
 
-        {/* Current comparison arrow */}
-        {comparing !== null && <Arrow index={comparing} arr={arr} color="lightgreen" />}
-      </Canvas>
+          {/* Current comparison arrow */}
+          {comparing !== null && <Arrow index={comparing} arr={arr} color="lightgreen" />}
+        </Canvas>
+      </div>
     </div>
   );
 };
