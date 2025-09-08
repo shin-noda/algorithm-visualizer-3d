@@ -1,11 +1,8 @@
 // src/components/stepsBoard/StepsBoard.tsx
 import "./StepsBoard.css";
 
-type Step = {
-  type: "comparison" | "shift" | "insert"; // Corrected types
-  indices: number[];
-  array: number[]; // <-- store current array state in each step
-};
+// types
+import type { Step } from "../../types/Step";
 
 interface StepsBoardProps {
   steps: Step[];
@@ -42,7 +39,7 @@ const StepsBoard = ({ steps }: StepsBoardProps) => {
             <div className="cell">{idx + 1}</div>
             <div className="cell">{getProcedureName(step.type)}</div>
             <div className="cell">[{step.indices.join(", ")}]</div>
-            <div className="cell">[{step.array.join(", ")}]</div>
+            <div className="cell">[{step.array?.join(", ")}]</div>
           </div>
         ))}
       </div>
