@@ -31,6 +31,10 @@
   color: #90ee90; /* light green */
 }
 
-.middle-bar-text .swaps {
+.middle-bar-text .shifts {
   color: #f87171; /* light red */
+}
+
+.middle-bar-text .inserts {
+  color: #87cefa; /* light sky blue */
 }

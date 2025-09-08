@@ -1,4 +1,3 @@
-// src/pages/insertionSort/InsertionSort.tsx
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 
@@ -7,6 +6,7 @@ import ComplexityTable from "../../components/complexityTable/ComplexityTable";
 import SortingScene from "../../scenes/sortingScene/SortingScene";
 import InsertionMiddleBar from "../../components/insertionMiddleBar/InsertionMiddleBar";
 import Arrow from "../../components/arrow/Arrow";
+import StepsBoard from "../../components/stepsBoard/StepsBoard";
 
 // css
 import "./InsertionSort.css";
@@ -27,10 +27,19 @@ const InsertionSort = () => {
   const [key, setKey] = useState<number | null>(null);
   const [isSorting, setIsSorting] = useState(false);
   const [comparisons, setComparisons] = useState(0);
-  const [moves, setMoves] = useState(0);
+  // --- CHANGES START HERE ---
+  // Replace single 'moves' state with separate 'shifts' and 'inserts' states
+  const [shifts, setShifts] = useState(0);
+  const [inserts, setInserts] = useState(0);
+  // --- CHANGES END HERE ---
 
   const [comparing, setComparing] = useState<number | null>(null);
-  const [swapping, setSwapping] = useState<number[]>([]);
+  const [shifting, setShifting] = useState<number[]>([]);
+
+  // Steps history for StepsBoard
+  const [stepsHistory, setStepsHistory] = useState<
+    { type: "comparison" | "shift" | "insert"; indices: number[]; array: number[] }[]
+  >([]);
 
   const startOrRestart = () => {
     if (!isSorting && i === 1 && j === 1) {
@@ -41,66 +50,114 @@ const InsertionSort = () => {
       setJ(1);
       setKey(null);
       setComparisons(0);
-      setMoves(0);
+      // --- CHANGES START HERE ---
+      // Reset new states on restart
+      setShifts(0);
+      setInserts(0);
+      // --- CHANGES END HERE ---
       setComparing(null);
-      setSwapping([]);
+      setShifting([]);
+      setStepsHistory([]);
     }
   };
 
-  const steps = comparisons + moves;
+  // --- CHANGES START HERE ---
+  // Calculate total steps from all three operations
+  const steps = comparisons + shifts + inserts;
+  // --- CHANGES END HERE ---
   const isFinished = !isSorting && i >= arr.length;
 
   useEffect(() => {
-    if (!isSorting) return;
-    if (i >= arr.length) {
+    if (!isSorting || i >= arr.length) {
       setIsSorting(false);
       setComparing(null);
-      setSwapping([]);
+      setShifting([]);
       return;
     }
 
-    const interval = setInterval(() => {
-      const newArr = [...arr];
+    const sortStep = () => {
+      const currentArr = [...arr];
 
       if (key === null) {
-        // Pick the next key
-        setKey(newArr[i]);
+        // Step 1: Pick the next key to insert
+        setKey(currentArr[i]);
         setJ(i - 1);
         setComparing(i);
-      } else if (j >= 0 && newArr[j] > key) {
-        // Shift elements to the right
-        newArr[j + 1] = newArr[j];
-        setArr(newArr);
-        setSwapping([j, j + 1]);
-        setMoves((prev) => prev + 1);
-        setComparisons((prev) => prev + 1); // This is the correct place to count a comparison
+        return;
+      }
+
+      if (j >= 0) {
+        // Step 2: Perform a comparison
+        setComparisons((prev) => prev + 1);
         setComparing(j);
 
-        // Clear swapping highlight after 300ms
-        setTimeout(() => setSwapping([]), 300);
+        // Record the comparison step
+        setStepsHistory((prev) => [
+          ...prev,
+          { type: "comparison", indices: [j, j + 1], array: [...currentArr] },
+        ]);
 
-        // Decrement j only if shift happened
-        setJ((prev) => prev - 1);
+        if (currentArr[j] > key) {
+          // Step 3: Shift the element
+          currentArr[j + 1] = currentArr[j];
+          setArr(currentArr);
+          setShifting([j, j + 1]);
+          // --- CHANGES START HERE ---
+          // Increment the shifts counter
+          setShifts((prev) => prev + 1);
+          // --- CHANGES END HERE ---
+
+          // Record the shift step
+          setStepsHistory((prev) => [
+            ...prev,
+            { type: "shift", indices: [j, j + 1], array: [...currentArr] },
+          ]);
+
+          setJ((prev) => prev - 1);
+        } else {
+          // Step 4: Insert the key and move to the next unsorted element
+          currentArr[j + 1] = key;
+          setArr(currentArr);
+          setKey(null);
+          setI((prev) => prev + 1);
+          setComparing(null);
+          // --- CHANGES START HERE ---
+          // Increment the inserts counter
+          setInserts((prev) => prev + 1);
+          // --- CHANGES END HERE ---
+
+          // Record the insertion step
+          setStepsHistory((prev) => [
+            ...prev,
+            { type: "insert", indices: [j + 1], array: [...currentArr] },
+          ]);
+        }
       } else {
-        // Insert the key in the correct position and count the final comparison
-        newArr[j + 1] = key!;
-        setArr(newArr);
+        // Step 5: Insert the key at the beginning (index 0)
+        currentArr[0] = key;
+        setArr(currentArr);
         setKey(null);
         setI((prev) => prev + 1);
         setComparing(null);
-        // This is the additional comparison for when the element is not greater than the key or the start of the array is reached.
-        // It should only be counted if j was not already -1.
-        if (j >= 0) {
-           setComparisons((prev) => prev + 1);
-        }
-      }
-    }, 300);
+        // --- CHANGES START HERE ---
+        // Increment the inserts counter
+        setInserts((prev) => prev + 1);
+        // --- CHANGES END HERE ---
 
-    return () => clearInterval(interval);
+        // Record the insertion step
+        setStepsHistory((prev) => [
+          ...prev,
+          { type: "insert", indices: [0], array: [...currentArr] },
+        ]);
+      }
+    };
+
+    const timer = setTimeout(sortStep, 300);
+    return () => clearTimeout(timer);
   }, [isSorting, arr, i, j, key]);
 
   return (
-    <div className="insertion-sort-page">
+    <div className="main">
       <h1>Insertion Sort</h1>
 
       <ComplexityTable
@@ -112,7 +169,11 @@ const InsertionSort = () => {
         onClick={startOrRestart}
         steps={steps}
         comparisons={comparisons}
-        moves={moves}
+        // --- CHANGES START HERE ---
+        // Pass the new shifts and inserts props
+        shifts={shifts}
+        inserts={inserts}
+        // --- CHANGES END HERE ---
         isSorting={isSorting}
         isFinished={isFinished}
       />
@@ -125,15 +186,20 @@ const InsertionSort = () => {
           {/* Bars */}
           <SortingScene
             arr={arr}
-            swapping={swapping}
+            swapping={shifting} // Renamed for clarity, passing shifting state
             maxBarHeight={5}
             barWidth={0.8}
           />
 
           {/* Current comparison arrow */}
-          {comparing !== null && <Arrow index={comparing} arr={arr} color="lightgreen" />}
+          {comparing !== null && (
+            <Arrow index={comparing} arr={arr} color="lightgreen" />
+          )}
         </Canvas>
       </div>
+
+      {/* StepsBoard below canvas */}
+      <StepsBoard steps={stepsHistory} />
     </div>
   );
 };

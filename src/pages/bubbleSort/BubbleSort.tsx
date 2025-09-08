@@ -7,6 +7,7 @@ import MiddleBar from "../../components/middleBar/MiddleBar";
 import ComplexityTable from "../../components/complexityTable/ComplexityTable";
 import SortingScene from "../../scenes/sortingScene/SortingScene";
 import Arrow from "../../components/arrow/Arrow";
+import StepsBoard from "../../components/stepsBoard/StepsBoard";
 
 // css
 import "./BubbleSort.css";
@@ -36,7 +37,7 @@ const BubbleSort = () => {
 
   const [comparing, setComparing] = useState<number[]>([]);
   const [swapping, setSwapping] = useState<number[]>([]);
-  const [, setStepHistory] = useState<Step[]>([]);
+  const [stepHistory, setStepHistory] = useState<Step[]>([]);
 
   const startOrRestart = () => {
     if (!isSorting && i === 0 && j === 0) {
@@ -109,7 +110,7 @@ const BubbleSort = () => {
   }, [isSorting, arr, i, j]);
 
   return (
-    <div className="bubble-sort-page">
+    <div className="main">
       <h1>Bubble Sort</h1>
 
       <ComplexityTable
@@ -145,6 +146,9 @@ const BubbleSort = () => {
           ))}
         </Canvas>
       </div>
+
+      {/* Steps board */}
+      <StepsBoard steps={stepHistory} />
     </div>
   );
 };
