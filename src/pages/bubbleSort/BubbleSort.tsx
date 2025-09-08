@@ -6,6 +6,7 @@ import { Canvas } from "@react-three/fiber";
 import MiddleBar from "../../components/middleBar/MiddleBar";
 import ComplexityTable from "../../components/complexityTable/ComplexityTable";
 import SortingScene from "../../scenes/sortingScene/SortingScene";
+import Arrow from "../../components/arrow/Arrow";
 
 // css
 import "./BubbleSort.css";
@@ -55,7 +56,6 @@ const BubbleSort = () => {
   const steps = comparisons + swaps;
   const isFinished = !isSorting && i >= arr.length;
 
-  // Bubble sort animation
   useEffect(() => {
     if (!isSorting) return;
     if (i >= arr.length) {
@@ -127,7 +127,7 @@ const BubbleSort = () => {
       />
 
       <div className="bubble-sort-canvas">
-        <Canvas camera={{ position: [0, 10, 20], fov: 20 }}>
+        <Canvas camera={{ position: [0, 5, 20], fov: 20 }}>
           <ambientLight />
           <pointLight position={[10, 20, 10]} />
 
@@ -140,29 +140,11 @@ const BubbleSort = () => {
           />
 
           {/* Arrows above comparing bars */}
-          {comparing.map((index) => {
-            const maxVal = Math.max(...arr);
-            const height = (arr[index] / maxVal) * 5;
-
-            return (
-              <group key={index} position={[index - arr.length / 2, height + 2, 0]}>
-                {/* Shaft */}
-                <mesh position={[0, -4, 0]}>
-                  <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
-                  <meshStandardMaterial color="lightgreen" />
-                </mesh>
-
-                {/* Tip pointing down */}
-                <mesh position={[0, -4.5, 0]} rotation={[Math.PI, 0, 0]}>
-                  <coneGeometry args={[0.2, 0.3, 8]} />
-                  <meshStandardMaterial color="lightgreen" />
-                </mesh>
-              </group>
-            );
-          })}
+          {comparing.map((index) => (
+            <Arrow key={index} index={index} arr={arr} color="lightgreen" />
+          ))}
         </Canvas>
       </div>
-      
     </div>
   );
 };
