@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 
-
 // components
 import MiddleBar from "../../components/middleBar/MiddleBar";
 import ComplexityTable from "../../components/complexityTable/ComplexityTable";
@@ -59,11 +58,15 @@ const InsertionSort = () => {
 
     const interval = setInterval(() => {
       const newArr = [...arr];
-      if (j > 0) setComparisons((prev) => prev + 1);
+
+      // Always show comparing arrows if inner loop runs
+      if (j > 0) {
+        setComparing([j, j - 1]);
+        setComparisons((prev) => prev + 1);
+      }
 
       if (j > 0 && newArr[j - 1] > newArr[j]) {
-        setComparing([j, j - 1]);
-
+        // Swap
         [newArr[j - 1], newArr[j]] = [newArr[j], newArr[j - 1]];
         setArr(newArr);
 
@@ -71,12 +74,13 @@ const InsertionSort = () => {
         setSwaps((prev) => prev + 1);
         setJ((prev) => prev - 1);
       } else {
+        // Move to next i
         setI((prevI) => {
           const nextI = prevI + 1;
           setJ(nextI);
           return nextI;
         });
-        setComparing([]);
+        setComparing([]); // Clear arrows after finishing this i
         setSwapping([]);
       }
     }, 300);
@@ -112,7 +116,7 @@ const InsertionSort = () => {
         {/* Bars */}
         <SortingScene
           arr={arr}
-          comparing={comparing}
+          comparing={comparing} // Still optional if you want visual feedback in SortingScene
           swapping={swapping}
           maxBarHeight={5}
           barWidth={0.8}
@@ -125,17 +129,17 @@ const InsertionSort = () => {
 
           return (
             <group key={index} position={[index - arr.length / 2, height + 2, 0]}>
-                {/* Shaft */}
-                <mesh position={[0, -0.5, 0]}>
-                    <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
-                    <meshStandardMaterial color="lightgreen" />
-                </mesh>
+              {/* Shaft */}
+              <mesh position={[0, -0.5, 0]}>
+                <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
+                <meshStandardMaterial color="lightgreen" />
+              </mesh>
 
-                {/* Tip (pointing down) */}
-                <mesh position={[0, -1, 0]} rotation={[Math.PI, 0, 0]}>
-                    <coneGeometry args={[0.2, 0.3, 8]} />
-                    <meshStandardMaterial color="lightgreen" />
-                </mesh>
+              {/* Tip (pointing down) */}
+              <mesh position={[0, -1, 0]} rotation={[Math.PI, 0, 0]}>
+                <coneGeometry args={[0.2, 0.3, 8]} />
+                <meshStandardMaterial color="lightgreen" />
+              </mesh>
             </group>
           );
         })}
