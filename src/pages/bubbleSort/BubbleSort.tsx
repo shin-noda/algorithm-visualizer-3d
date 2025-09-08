@@ -1,3 +1,4 @@
+// src/pages/bubbleSort/BubbleSort.tsx
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 
@@ -17,6 +18,12 @@ const MAX_VALUE = 100;
 const generateArray = (size: number, maxVal: number) =>
   Array.from({ length: size }, () => Math.floor(Math.random() * maxVal) + 1);
 
+type Step = {
+  type: "comparison" | "swap";
+  indices: number[];
+  array: number[];
+};
+
 const BubbleSort = () => {
   const [array] = useState(() => generateArray(ARRAY_SIZE, MAX_VALUE));
   const [arr, setArr] = useState([...array]);
@@ -28,6 +35,7 @@ const BubbleSort = () => {
 
   const [comparing, setComparing] = useState<number[]>([]);
   const [swapping, setSwapping] = useState<number[]>([]);
+  const [, setStepHistory] = useState<Step[]>([]);
 
   const startOrRestart = () => {
     if (!isSorting && i === 0 && j === 0) {
@@ -40,6 +48,7 @@ const BubbleSort = () => {
       setSwaps(0);
       setComparing([]);
       setSwapping([]);
+      setStepHistory([]);
     }
   };
 
@@ -60,16 +69,30 @@ const BubbleSort = () => {
       if (i < arr.length) {
         if (j < arr.length - i - 1) {
           setComparing([j, j + 1]);
+
+          // Record comparison step with array state
+          setStepHistory((prev) => [
+            ...prev,
+            { type: "comparison", indices: [j, j + 1], array: [...arr] },
+          ]);
+          setComparisons((prev) => prev + 1);
+
           if (arr[j] > arr[j + 1]) {
-            setSwapping([j, j + 1]);
             const newArr = [...arr];
             [newArr[j], newArr[j + 1]] = [newArr[j + 1], newArr[j]];
             setArr(newArr);
+            setSwapping([j, j + 1]);
+
+            // Record swap step with updated array
+            setStepHistory((prev) => [
+              ...prev,
+              { type: "swap", indices: [j, j + 1], array: [...newArr] },
+            ]);
             setSwaps((prev) => prev + 1);
           } else {
             setSwapping([]);
           }
-          setComparisons((prev) => prev + 1);
+
           setJ((prev) => prev + 1);
         } else {
           setJ(0);
@@ -103,41 +126,44 @@ const BubbleSort = () => {
         isFinished={isFinished}
       />
 
-      <Canvas camera={{ position: [0, 10, 20], fov: 35 }} className="bubble-sort-canvas">
-        <ambientLight />
-        <pointLight position={[10, 20, 10]} />
+      <div className="bubble-sort-canvas">
+        <Canvas camera={{ position: [0, 10, 20], fov: 35 }}>
+          <ambientLight />
+          <pointLight position={[10, 20, 10]} />
 
-        {/* Bars */}
-        <SortingScene
-          arr={arr}
-          comparing={[]} // remove green coloring
-          swapping={swapping}
-          maxBarHeight={5}
-          barWidth={0.8}
-        />
+          {/* Bars */}
+          <SortingScene
+            arr={arr}
+            comparing={[]} // remove green coloring if desired
+            swapping={swapping}
+            maxBarHeight={5}
+            barWidth={0.8}
+          />
 
-        {/* Arrows above comparing bars */}
-        {comparing.map((index) => {
-          const maxVal = Math.max(...arr);
-          const height = (arr[index] / maxVal) * 5;
+          {/* Arrows above comparing bars */}
+          {comparing.map((index) => {
+            const maxVal = Math.max(...arr);
+            const height = (arr[index] / maxVal) * 5;
 
-          return (
-            <group key={index} position={[index - arr.length / 2, height + 2, 0]}>
-              {/* Shaft */}
-              <mesh position={[0, -0.5, 0]}>
-                <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
-                <meshStandardMaterial color="lightgreen" />
-              </mesh>
+            return (
+              <group key={index} position={[index - arr.length / 2, height + 2, 0]}>
+                {/* Shaft */}
+                <mesh position={[0, -0.5, 0]}>
+                  <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
+                  <meshStandardMaterial color="lightgreen" />
+                </mesh>
 
-              {/* Tip pointing down */}
-              <mesh position={[0, -1, 0]} rotation={[Math.PI, 0, 0]}>
-                <coneGeometry args={[0.2, 0.3, 8]} />
-                <meshStandardMaterial color="lightgreen" />
-              </mesh>
-            </group>
-          );
-        })}
-      </Canvas>
+                {/* Tip pointing down */}
+                <mesh position={[0, -1, 0]} rotation={[Math.PI, 0, 0]}>
+                  <coneGeometry args={[0.2, 0.3, 8]} />
+                  <meshStandardMaterial color="lightgreen" />
+                </mesh>
+              </group>
+            );
+          })}
+        </Canvas>
+      </div>
+      
     </div>
   );
 };

@@ -1,0 +1,36 @@
+.steps-board {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: monospace;
+  flex-shrink: 0; /* prevent shrinking */
+  margin-top: 1rem;
+}
+
+.steps-board h3 {
+    margin-top: 0;
+}
+
+/* grid layout for steps table */
+.steps-grid {
+    display: grid;
+    grid-template-columns: 50px 100px 120px 1fr;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.row {
+  display: contents; /* keep cells aligned in the grid */
+}
+
+.cell {
+    padding: 5px 10px 5px 0px;
+}
+
+.header .cell {
+    font-weight: 600;
+    border-bottom: 2px solid #000;
+}
