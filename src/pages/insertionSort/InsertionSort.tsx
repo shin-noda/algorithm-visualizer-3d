@@ -6,6 +6,7 @@ import { Canvas } from "@react-three/fiber";
 import ComplexityTable from "../../components/complexityTable/ComplexityTable";
 import SortingScene from "../../scenes/sortingScene/SortingScene";
 import InsertionMiddleBar from "../../components/insertionMiddleBar/InsertionMiddleBar";
+import Arrow from "../../components/arrow/Arrow";
 
 // css
 import "./InsertionSort.css";
@@ -17,36 +18,6 @@ const MAX_VALUE = 100;
 // Generate random array
 const generateArray = (size: number, maxVal: number) =>
   Array.from({ length: size }, () => Math.floor(Math.random() * maxVal) + 1);
-
-// Arrow component to show current comparison
-const Arrow = ({
-  index,
-  arr,
-  color,
-}: {
-  index: number;
-  arr: number[];
-  color: string;
-}) => {
-  const maxVal = Math.max(...arr);
-  const height = (arr[index] / maxVal) * 5;
-
-  return (
-    <group position={[index - arr.length / 2, height + 2, 0]}>
-      {/* Shaft */}
-      <mesh position={[0, -4, 0]}>
-        <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-
-      {/* Tip */}
-      <mesh position={[0, -4.5, 0]} rotation={[Math.PI, 0, 0]}>
-        <coneGeometry args={[0.2, 0.3, 8]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-    </group>
-  );
-};
 
 const InsertionSort = () => {
   const [array] = useState(() => generateArray(ARRAY_SIZE, MAX_VALUE));
@@ -147,7 +118,7 @@ const InsertionSort = () => {
       />
 
       <div className="insertion-sort-canvas">
-        <Canvas camera={{ position: [0, 10, 20], fov: 20 }}>
+        <Canvas camera={{ position: [0, 5, 20], fov: 20 }}>
           <ambientLight />
           <pointLight position={[10, 20, 10]} />
 
