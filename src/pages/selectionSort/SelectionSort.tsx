@@ -147,7 +147,6 @@ const SelectionSort = () => {
         {/* Bars */}
         <SortingScene
           arr={arr}
-          comparing={[]}
           swapping={swapping}
           maxBarHeight={5}
           barWidth={0.8}

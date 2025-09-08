@@ -134,7 +134,6 @@ const BubbleSort = () => {
           {/* Bars */}
           <SortingScene
             arr={arr}
-            comparing={[]} // remove green coloring if desired
             swapping={swapping}
             maxBarHeight={5}
             barWidth={0.8}
