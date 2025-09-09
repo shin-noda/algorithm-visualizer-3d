@@ -11,6 +11,7 @@ import InsertionSort from "./pages/insertionSort/InsertionSort";
 import SelectionSort from "./pages/selectionSort/SelectionSort";
 import QuickSort from "./pages/quickSort/QuickSort";
 import MergeSort from "./pages/mergeSort/MergeSort";
+import HeapSort from "./pages/heatSort/HeapSort";
 
 // CSS
 import './App.css'
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/selection-sort" element={<SelectionSort />} />
           <Route path="/quick-sort" element={<QuickSort />} />
           <Route path="/merge-sort" element={<MergeSort />} />
+          <Route path="/heap-sort" element={<HeapSort />} />
         </Routes>
         <Footer />
       </div>

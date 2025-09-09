@@ -29,6 +29,12 @@ const algorithms = [
       "Divides the array into halves recursively, then merges the sorted halves back together. Guarantees O(n log n) time complexity and is stable.",
     route: "/merge-sort",
   },
+  {
+    name: "Heap Sort",
+    description:
+      "Builds a max heap from the array, then repeatedly extracts the largest element to sort the array. Efficient O(n log n) time complexity but unstable.",
+    route: "/heap-sort",
+  }
 ];
 
 const AlgoList = () => {
