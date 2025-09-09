@@ -161,8 +161,13 @@ const InsertionSort = () => {
       <h1>Insertion Sort</h1>
 
       <ComplexityTable
-        timeComplexity={{ best: "O(n)", average: "O(n²)", worst: "O(n²)" }}
+        timeComplexity={{
+          best: "O(n)",
+          average: "O(n²)",
+          worst: "O(n²)"
+        }}
         spaceComplexity="O(1)"
+        stability="Stable"
       />
 
       <InsertionMiddleBar

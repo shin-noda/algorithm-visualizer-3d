@@ -132,6 +132,7 @@ const QuickSort = () => {
           worst: "O(n²)"
         }}
         spaceComplexity="O(log n)"
+        stability="Unstable"
       />
 
       <QuickMiddleBar

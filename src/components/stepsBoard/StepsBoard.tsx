@@ -1,4 +1,4 @@
-// src/components/stepsBoard/StepsBoard.tsx
+import { useEffect, useRef } from "react";
 import "./StepsBoard.css";
 
 // types
@@ -9,27 +9,29 @@ interface StepsBoardProps {
 }
 
 const StepsBoard = ({ steps }: StepsBoardProps) => {
+  const boardRef = useRef<HTMLDivElement>(null);
+
   const getProcedureName = (type: Step['type']) => {
     switch (type) {
-      case "comparison":
-        return "Compare";
-      case "shift":
-        return "Shift";
-      case "insert":
-        return "Insert";
-      case "swap":
-        return "Swap";
-      case "pivot":
-        return "Pivot";
-      case "merge":
-        return "Merge";
-      default:
-        return "Unknown";
+      case "comparison": return "Compare";
+      case "shift": return "Shift";
+      case "insert": return "Insert";
+      case "swap": return "Swap";
+      case "pivot": return "Pivot";
+      case "merge": return "Merge";
+      default: return "Unknown";
     }
   };
 
+  useEffect(() => {
+    if (boardRef.current) {
+      // scroll the board itself to the bottom
+      boardRef.current.scrollTop = boardRef.current.scrollHeight;
+    }
+  }, [steps]);
+
   return (
-    <div className="steps-board">
+    <div className="steps-board" ref={boardRef}>
       <h2 className="board-header">Steps History</h2>
 
       <div className="steps-grid">
