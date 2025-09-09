@@ -3,9 +3,10 @@ import "./ComplexityTable.css";
 interface ComplexityTableProps {
   timeComplexity: { best: string; average: string; worst: string };
   spaceComplexity: string;
+  stability: string;
 }
 
-const ComplexityTable = ({ timeComplexity, spaceComplexity }: ComplexityTableProps) => {
+const ComplexityTable = ({ timeComplexity, spaceComplexity, stability }: ComplexityTableProps) => {
   return (
     <div className="complexity-table">
       <div className="row header">
@@ -28,6 +29,11 @@ const ComplexityTable = ({ timeComplexity, spaceComplexity }: ComplexityTablePro
         <div className="cell">Space Complexity</div>
         <div className="cell">{spaceComplexity}</div>
       </div>
+
+      <div className="row">
+        <div className="cell">Stability</div>
+        <div className="cell">{stability}</div>
+</div>
     </div>
   );
 };

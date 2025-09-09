@@ -124,8 +124,13 @@ const SelectionSort = () => {
       <h1>Selection Sort</h1>
 
       <ComplexityTable
-        timeComplexity={{ best: "O(n²)", average: "O(n²)", worst: "O(n²)" }}
+        timeComplexity={{
+          best: "O(n²)",
+          average: "O(n²)",
+          worst: "O(n²)"
+        }}
         spaceComplexity="O(1)"
+        stability="Unstable"
       />
 
       <MiddleBar

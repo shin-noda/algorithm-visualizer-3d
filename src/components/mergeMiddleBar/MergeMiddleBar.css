@@ -31,10 +31,6 @@
   color: #90ee90; /* light green */
 }
 
-.middle-bar-text .swaps {
+.middle-bar-text .merges {
   color: #f87171; /* light red */
-}
-
-.middle-bar-text .pivots {
-  color: #87cefa; /* light sky blue */
 }

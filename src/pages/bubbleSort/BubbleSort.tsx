@@ -114,8 +114,13 @@ const BubbleSort = () => {
       <h1>Bubble Sort</h1>
 
       <ComplexityTable
-        timeComplexity={{ best: "O(n)", average: "O(n²)", worst: "O(n²)" }}
+        timeComplexity={{
+          best: "O(n)",
+          average: "O(n²)",
+          worst: "O(n²)"
+        }}
         spaceComplexity="O(1)"
+        stability="Stable"
       />
 
       <MiddleBar
