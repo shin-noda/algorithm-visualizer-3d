@@ -1,25 +1,24 @@
-// src/scenes/sortingScene/SortingScene.tsx
+// src/scenes/quickSortingScene/QuickSortingScene.tsx
 import type { FC } from "react";
 import { Text } from "@react-three/drei";
-import "./SortingScene.css";
+import "./QuickSortingScene.css";
 
-interface SortingSceneProps {
+interface QuickSortingSceneProps {
   arr: number[];
-  swapping: number[];
-  highlights?: number[];  // optional
+  swapping: number[]; // indices currently swapping
+  pivots: number[];   // indices of current pivot(s)
   maxBarHeight?: number;
   barWidth?: number;
 }
 
-const SortingScene: FC<SortingSceneProps> = ({
+const QuickSortingScene: FC<QuickSortingSceneProps> = ({
   arr,
   swapping,
+  pivots,
   maxBarHeight = 5,
   barWidth = 0.8,
 }) => {
   const maxVal = Math.max(...arr);
-
-  // Optional: offset all bars down by 1 or 2 units
   const yOffset = -4;
 
   return (
@@ -27,8 +26,17 @@ const SortingScene: FC<SortingSceneProps> = ({
       {arr.map((value, index) => {
         const height = (value / maxVal) * maxBarHeight;
 
-        // Always blue; red for swapping only
-        const color = swapping.includes(index) ? 0xf87171 : 0x38bdf8;
+        // Default: blue
+        let color = 0x38bdf8;
+
+        // Swapping: red
+        if (swapping.includes(index)) {
+          color = 0xf87171;
+        }
+        // Pivot: yellow (arrows show pivot, but bars stay highlighted too)
+        else if (pivots.includes(index)) {
+          color = 0xfacc15;
+        }
 
         return (
           <group key={index} position={[index - arr.length / 2, height / 2, 0]}>
@@ -52,5 +60,4 @@ const SortingScene: FC<SortingSceneProps> = ({
   );
 };
 
-
-export default SortingScene;
+export default QuickSortingScene;
