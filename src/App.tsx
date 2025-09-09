@@ -10,6 +10,7 @@ import BubbleSort from "./pages/bubbleSort/BubbleSort";
 import InsertionSort from "./pages/insertionSort/InsertionSort";
 import SelectionSort from "./pages/selectionSort/SelectionSort";
 import QuickSort from "./pages/quickSort/QuickSort";
+import MergeSort from "./pages/mergeSort/MergeSort";
 
 // CSS
 import './App.css'
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/insertion-sort" element={<InsertionSort />} />
           <Route path="/selection-sort" element={<SelectionSort />} />
           <Route path="/quick-sort" element={<QuickSort />} />
+          <Route path="/merge-sort" element={<MergeSort />} />
         </Routes>
         <Footer />
       </div>

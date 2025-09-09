@@ -20,7 +20,9 @@ const StepsBoard = ({ steps }: StepsBoardProps) => {
       case "swap":
         return "Swap";
       case "pivot":
-        return "Pivot"
+        return "Pivot";
+      case "merge":
+        return "Merge";
       default:
         return "Unknown";
     }

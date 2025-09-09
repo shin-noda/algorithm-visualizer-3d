@@ -23,6 +23,12 @@ const algorithms = [
       "Divides the array using a pivot, then recursively sorts the partitions. Efficient for large datasets with average O(n log n) time complexity.",
     route: "/quick-sort",
   },
+  {
+    name: "Merge Sort",
+    description:
+      "Divides the array into halves recursively, then merges the sorted halves back together. Guarantees O(n log n) time complexity and is stable.",
+    route: "/merge-sort",
+  },
 ];
 
 const AlgoList = () => {
