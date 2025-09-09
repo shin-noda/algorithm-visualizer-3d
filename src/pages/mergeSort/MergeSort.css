@@ -1,0 +1,10 @@
+.merge-sort-canvas {
+  width: 100%;
+  height: 350px;
+}
+
+@media (max-width: 768px) {
+  .merge-sort-canvas {
+    height: 180px;
+  }
+}
