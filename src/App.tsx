@@ -9,6 +9,7 @@ import Main from "./components/main/Main";
 import BubbleSort from "./pages/bubbleSort/BubbleSort";
 import InsertionSort from "./pages/insertionSort/InsertionSort";
 import SelectionSort from "./pages/selectionSort/SelectionSort";
+import QuickSort from "./pages/quickSort/QuickSort";
 
 // CSS
 import './App.css'
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/bubble-sort" element={<BubbleSort />} />
           <Route path="/insertion-sort" element={<InsertionSort />} />
           <Route path="/selection-sort" element={<SelectionSort />} />
+          <Route path="/quick-sort" element={<QuickSort />} />
         </Routes>
         <Footer />
       </div>

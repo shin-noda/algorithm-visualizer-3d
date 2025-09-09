@@ -17,6 +17,12 @@ const algorithms = [
     description: "Selects the smallest element from the unsorted portion and swaps it into its correct position each iteration.",
     route: "/selection-sort",
   },
+  {
+    name: "Quick Sort",
+    description:
+      "Divides the array using a pivot, then recursively sorts the partitions. Efficient for large datasets with average O(n log n) time complexity.",
+    route: "/quick-sort",
+  },
 ];
 
 const AlgoList = () => {

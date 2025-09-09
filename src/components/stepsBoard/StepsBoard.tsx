@@ -17,6 +17,10 @@ const StepsBoard = ({ steps }: StepsBoardProps) => {
         return "Shift";
       case "insert":
         return "Insert";
+      case "swap":
+        return "Swap";
+      case "pivot":
+        return "Pivot"
       default:
         return "Unknown";
     }
