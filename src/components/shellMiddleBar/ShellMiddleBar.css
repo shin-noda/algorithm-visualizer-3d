@@ -1,0 +1,40 @@
+.middle-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.middle-bar button {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.middle-bar button:disabled {
+  cursor: not-allowed;
+}
+
+.middle-bar-text {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #000;
+}
+
+.middle-bar-text .comparisons {
+  color: #90ee90; /* light green */
+}
+
+.middle-bar-text .swaps {
+  color: #f87171; /* light red */
+}
+
+.middle-bar-text .pivots {
+  color: #87cefa; /* light sky blue */
+}
