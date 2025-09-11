@@ -13,7 +13,7 @@ const InsertionSortingScene: FC<SortingSceneProps> = ({
   barWidth = 0.8,
 }) => {
   const maxVal = Math.max(...arr);
-  const yOffset = -3;
+  const yOffset = -4;
 
   return (
     <group position={[0, yOffset, 0]}>
