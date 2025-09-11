@@ -22,7 +22,7 @@ const Cube = ({
       <mesh>
         <boxGeometry args={[size, size, size]} />
         <meshStandardMaterial transparent opacity={0} />
-        <Edges color={highlighted ? "#f43f5e" : "#f5f5f5"} />
+        <Edges color={highlighted ? "#f43f5e" : "#f8f8f8"} />
       </mesh>
       {label !== null && (
         <Text

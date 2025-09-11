@@ -55,8 +55,8 @@ const CountingSortGrid = ({
   }, [active]);
 
   return (
-    <div style={{ width: "100%", height: "520px" }}>
-      <Canvas camera={{ position: [0, 0, 12], fov: 50 }}>
+    <div style={{ width: "100%", height: "450px" }}>
+      <Canvas camera={{ position: [0, 0, 15], fov: 50 }}>
         <ambientLight intensity={0.8} />
         <directionalLight position={[5, 10, 5]} intensity={0.6} />
         <group position={[0, 1.2, 0]}>

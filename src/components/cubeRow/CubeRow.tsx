@@ -19,7 +19,7 @@ const CubeRow = ({
   y,
   kind,
   activeIndex = null,
-  showLabels = true
+  showLabels = true,
 }: CubeRowProps) => {
   const n = values.length;
   const offset = (n - 1) / 2;
@@ -32,17 +32,27 @@ const CubeRow = ({
         const label = showLabels ? (v === null ? "" : v) : null;
 
         return (
-          <Cube
-            key={`${kind}-${i}`}
-            value={v}
-            highlighted={highlighted}
-            position={[x, 0, 0]}
-            label={label}
-            size={CUBE_SIZE}
-          />
+          <group key={`${kind}-${i}`} position={[x, 0, 0]}>
+            {/* Cube */}
+            <Cube value={v} highlighted={highlighted} position={[0, 0, 0]} label={label} size={CUBE_SIZE} />
+
+            {/* Index below the cube */}
+            {showLabels && (
+              <Text
+                position={[0, -CUBE_SIZE / 1.3, 0]} // slightly below the cube
+                fontSize={0.25}
+                anchorX="center"
+                anchorY="middle"
+                color={highlighted ? "#ff0000" : "#555"} // highlight index if cube is active
+              >
+                [{i}]
+              </Text>
+            )}
+          </group>
         );
       })}
 
+      {/* Row label on the side */}
       <Text
         position={[-(n / 2) * (CUBE_SIZE + 0.15) - 1.2, 0, 0]}
         fontSize={0.3}
