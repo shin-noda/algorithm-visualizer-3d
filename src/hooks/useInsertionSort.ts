@@ -50,9 +50,11 @@ export function useInsertionSort() {
       const key = arr[i];
       let j = i - 1;
 
+      // Shift elements greater than key
       while (j >= 0 && arr[j] > key) {
-        setComparingIndices([j, j + 1]);
-        recordStep("comparison", [j, j + 1], [...arr]);
+        // comparison with held element (-1 marks key)
+        setComparingIndices([j, -1]);
+        recordStep("comparison", [j, -1], [...arr]);
         await new Promise((r) => setTimeout(r, 200));
 
         arr[j + 1] = arr[j];
@@ -60,13 +62,16 @@ export function useInsertionSort() {
         j--;
       }
 
-      arr[j + 1] = key;
-      recordStep("insert", [j + 1], [...arr]);
-      setInsertingIndices([j + 1]); // highlight the inserted index
-      setArray([...arr]);
+      // Insert held element at correct position if it actually moves
+      if (j + 1 !== i) {
+        arr[j + 1] = key;
+        recordStep("insert", [j + 1], [...arr]);
+        setInsertingIndices([j + 1]);
+        setArray([...arr]);
 
-      await new Promise((r) => setTimeout(r, 200));
-      setInsertingIndices([]); // clear highlight after a short delay
+        await new Promise((r) => setTimeout(r, 200));
+        setInsertingIndices([]);
+      }
     }
   };
 

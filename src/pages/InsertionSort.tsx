@@ -1,4 +1,3 @@
-// components
 import ComplexityTable from "../components/complexityTable/ComplexityTable";
 import InsertionMiddleBar from "../components/insertionMiddleBar/InsertionMiddleBar";
 import Arrow from "../components/arrow/Arrow";
@@ -57,9 +56,18 @@ const InsertionSort = () => {
           barWidth={0.8}
         />
 
-        {comparingIndices.map((compIdx) => (
-          <Arrow key={`comp-${compIdx}`} index={compIdx} arr={array} color="#4ade80" />
-        ))}
+        {/* Optional arrows for highlighting */}
+        {comparingIndices.map((compIdx, i) => {
+          if (compIdx === -1) return null; // skip held element
+          return (
+            <Arrow
+              key={`comp-${i}`}
+              index={compIdx}
+              arr={array}
+              color="#4ade80"
+            />
+          );
+        })}
       </SortingCanvas>
 
       <StepsBoard steps={stepHistory} />

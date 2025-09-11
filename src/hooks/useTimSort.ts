@@ -50,28 +50,30 @@ export function useTimSort() {
     if (type === "insert") setInserts((i) => i + 1);
   };
 
-  // Insertion Sort for small runs
+  // Insertion Sort for small runs with held-element tweak
   const insertionSort = async (arr: number[], left: number, right: number) => {
     for (let i = left + 1; i <= right; i++) {
       const key = arr[i];
       let j = i - 1;
 
       while (j >= left && arr[j] > key) {
-        setComparingIndices([j, j + 1]);
-        recordStep("comparison", [j, j + 1], [...arr]);
+        // Comparison with held element (-1)
+        setComparingIndices([j, -1]);
+        recordStep("comparison", [j, -1], [...arr]);
         await new Promise((r) => setTimeout(r, 200));
 
+        // Shift element
         arr[j + 1] = arr[j];
         recordStep("shift", [j, j + 1], [...arr]);
         j--;
       }
 
+      // Insert held element
       arr[j + 1] = key;
       recordStep("insert", [j + 1], [...arr]);
       setInsertingIndices([j + 1]);
       setArray([...arr]);
 
-      // clear highlight after a short delay
       await new Promise((r) => setTimeout(r, 200));
       setInsertingIndices([]);
     }
