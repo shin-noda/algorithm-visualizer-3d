@@ -5,36 +5,42 @@ import type { Step } from "../types/Step";
 const ARRAY_SIZE = 10;
 const MAX_VALUE = 20;
 
+type RowKind = "input" | "count" | "output";
+type ActiveHighlight = {
+  row: RowKind;
+  index: number;
+  sourceRow?: RowKind; // optional, indicates why it's highlighted
+};
+
+
 export function useCountingSort() {
-  const [array, setArray] = useState<number[]>([]); // original input
+  const [array, setArray] = useState<number[]>([]);
   const [stepHistory, setStepHistory] = useState<Step[]>([]);
   const [isSorting, setIsSorting] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
   const [countArray, setCountArray] = useState<number[]>([]);
-  const [outputArray, setOutputArray] = useState<(number | null)[]>(Array(ARRAY_SIZE).fill(null));
+  const [outputArray, setOutputArray] = useState<(number | null)[]>(
+    Array(ARRAY_SIZE).fill(null)
+  );
 
-  const [active, setActive] = useState<{ row: "input" | "count" | "output"; index: number } | null>(null);
+  const [active, setActive] = useState<ActiveHighlight[]>([]);
 
   useEffect(() => {
     resetArray();
   }, []);
 
   const resetArray = () => {
-    const arr = Array.from({ length: ARRAY_SIZE }, () => Math.floor(Math.random() * MAX_VALUE));
+    const arr = Array.from({ length: ARRAY_SIZE }, () =>
+      Math.floor(Math.random() * MAX_VALUE)
+    );
     setArray(arr);
     setStepHistory([]);
     setCountArray([]);
     setOutputArray(Array(ARRAY_SIZE).fill(null));
-    setActive(null);
+    setActive([]);
     setIsFinished(false);
   };
-
-  /*
-  const recordStep = (type: Step["type"], indices: number[], arr: number[]) => {
-    setStepHistory((prev) => [...prev, { type, indices, array: [...arr] }]);
-  };
-  */
 
   const countingSort = async (arr: number[]) => {
     const max = Math.max(...arr);
@@ -43,15 +49,18 @@ export function useCountingSort() {
     // Counting occurrences
     for (let i = 0; i < arr.length; i++) {
       count[arr[i]]++;
-      setActive({ row: "input", index: i });
+      setActive([
+        { row: "input", index: i },
+        { row: "count", index: arr[i], sourceRow: "input" },
+      ]);
       setCountArray([...count]);
-      await new Promise((r) => setTimeout(r, 200));
+      await new Promise((r) => setTimeout(r, 300));
     }
 
-    // Prefix sum (optional, for visualization)
-    for (let i = 1; i < count.length; i++) {
-      count[i] += count[i - 1];
-      setActive({ row: "count", index: i });
+    // Prefix sum
+    for (let i = 0; i < count.length; i++) {
+      if (i > 0) count[i] += count[i - 1];
+      setActive([{ row: "count", index: i }]); // red, no sourceRow
       setCountArray([...count]);
       await new Promise((r) => setTimeout(r, 200));
     }
@@ -64,7 +73,7 @@ export function useCountingSort() {
       output[count[val] - 1] = val;
       count[val]--;
       setOutputArray([...output]);
-      setActive({ row: "output", index: count[val] });
+      setActive([{ row: "output", index: count[val] }]);
       await new Promise((r) => setTimeout(r, 200));
     }
 
@@ -74,15 +83,15 @@ export function useCountingSort() {
   const handleSort = async () => {
     if (isSorting) return;
     setIsSorting(true);
-    const sorted = await countingSort([...array]); // use a copy
-    setOutputArray(sorted); // only update output, preserve original input
+    const sorted = await countingSort([...array]);
+    setOutputArray(sorted);
     setIsSorting(false);
     setIsFinished(true);
-    setActive(null);
+    setActive([]);
   };
 
   return {
-    array, // original input remains unchanged
+    array,
     countArray,
     outputArray,
     stepHistory,

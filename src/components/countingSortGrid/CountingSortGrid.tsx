@@ -8,11 +8,16 @@ import CubeRow from "../cubeRow/CubeRow";
 
 type RowKind = "input" | "count" | "output";
 
+interface ActiveHighlight {
+  row: RowKind;
+  index: number;
+}
+
 interface CountingSortGridProps {
   input: number[];
   count: number[];
   output: (number | null)[];
-  active?: { row: RowKind; index: number } | null;
+  active?: ActiveHighlight[]; // now array
   showLabels?: boolean;
 }
 
@@ -23,7 +28,7 @@ const CountingSortGrid = ({
   input,
   count,
   output,
-  active = null,
+  active = [],
   showLabels = true,
 }: CountingSortGridProps) => {
   const inputRow = useMemo(() => {
@@ -35,8 +40,9 @@ const CountingSortGrid = ({
   const maxValue = useMemo(() => Math.max(...input, 0), [input]);
 
   const countRow = useMemo(() => {
-    // The count row should have max(input) + 1 slots
-    const arr: (number | null)[] = new Array(maxValue + 1).fill(0).map((_, i) => count[i] ?? 0);
+    const arr: (number | null)[] = new Array(maxValue + 1)
+      .fill(0)
+      .map((_, i) => count[i] ?? 0);
     return arr;
   }, [count, maxValue]);
 
@@ -45,14 +51,6 @@ const CountingSortGrid = ({
     while (arr.length < DEFAULT_SLOTS) arr.push(null);
     return arr;
   }, [output]);
-
-  const activeMap = useMemo(() => {
-    return {
-      input: active?.row === "input" ? active.index : null,
-      count: active?.row === "count" ? active.index : null,
-      output: active?.row === "output" ? active.index : null,
-    } as Record<RowKind, number | null>;
-  }, [active]);
 
   return (
     <div style={{ width: "100%", height: "450px" }}>
@@ -64,7 +62,7 @@ const CountingSortGrid = ({
             values={inputRow}
             y={0}
             kind="input"
-            activeIndex={activeMap.input}
+            active={active.filter((a) => a.row === "input")}
             showLabels={showLabels}
           />
 
@@ -72,19 +70,20 @@ const CountingSortGrid = ({
             values={countRow}
             y={ROW_GAP}
             kind="count"
-            activeIndex={activeMap.count}
+            active={active.filter((a) => a.row === "count")}
             showLabels={showLabels}
           />
-          
+
           <CubeRow
             values={outputRow}
             y={ROW_GAP * 2}
             kind="output"
-            activeIndex={activeMap.output}
+            active={active.filter((a) => a.row === "output")}
             showLabels={showLabels}
           />
         </group>
-        <OrbitControls enablePan enableZoom enableRotate />
+
+        <OrbitControls enablePan={false} enableZoom={false} enableRotate={true} />
       </Canvas>
     </div>
   );

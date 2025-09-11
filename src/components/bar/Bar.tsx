@@ -1,4 +1,4 @@
-import { Text } from "@react-three/drei";
+import { Edges, Text } from "@react-three/drei";
 
 interface BarProps {
   value: number;
@@ -21,7 +21,8 @@ const Bar = ({
     <group key={index} position={[index - arrLength / 2, height / 2, 0]}>
       <mesh>
         <boxGeometry args={[barWidth, height, barWidth]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial transparent opacity={0} />
+        <Edges color={color} />
       </mesh>
       <Text
         position={[0, height / 2 + 0.5, 0]}

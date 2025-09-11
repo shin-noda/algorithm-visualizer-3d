@@ -5,6 +5,9 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Main from "./components/main/Main";
 
+// css
+import './App.css'
+
 // pages
 import BubbleSort from "./pages/BubbleSort";
 import InsertionSort from "./pages/InsertionSort";
@@ -14,10 +17,9 @@ import MergeSort from "./pages/MergeSort";
 import HeapSort from "./pages/HeapSort";
 import ShellSort from "./pages/ShellSort";
 import TimSort from "./pages/TimSort";
-
-// CSS
-import './App.css'
 import CountingSort from "./pages/CountingSort";
+
+
 
 const App = () => {
   return (
