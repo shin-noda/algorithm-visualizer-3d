@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+# This workflow runs whenever you push code to the 'main' branch
+on:
+  push:
+    branches:
+      - main  # Only run on pushes to main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+
+    steps:
+      # Step 1: Get a copy of your repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        # This pulls your code from GitHub so the workflow can work with it
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20  # Install Node.js version 20
+        # Node.js is needed to run npm commands like 'install' and 'build'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+        # 'npm ci' installs all dependencies exactly as listed in package-lock.json
+        # It's cleaner and more reliable than 'npm install' for CI/CD
+
+      # Step 4: Build the project
+      - name: Build project
+        run: npm run build
+        # This runs your build script
+        # In your package.json, predeploy already runs 'vite build' which generates the 'dist' folder
+
+      # Step 5: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+        # This action takes your 'dist' folder and pushes it to the 'gh-pages' branch
+        # GitHub Pages then serves the site from that branch
+        # The github_token is automatically provided by GitHub; no need to create your own token
