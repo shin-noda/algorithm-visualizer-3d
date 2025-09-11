@@ -17,6 +17,14 @@ It shows step-by-step animations of sorting, with colored bars and arrows for co
 - [drei](https://github.com/pmndrs/drei) for helpers like 3D text
 - Vite for fast development
 
+## CI/CD & Deployment
+This project uses GitHub Actions to automatically build and deploy the app to GitHub Pages whenever changes are merged into the `main` branch.  
+
+- **Workflow triggers**: pushes or merges to `main`
+- **Build**: runs `npm ci` and `npm run build`
+- **Deploy**: the `dist` folder is published to GitHub Pages
+- **Secrets**: GitHub provides `GITHUB_TOKEN` automatically for deployment
+
 ## Usage
 Pick an algorithm from the home page.
 Click Sort to start the animation.
