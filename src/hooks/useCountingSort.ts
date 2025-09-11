@@ -1,30 +1,23 @@
 // src/hooks/useCountingSort.ts
 import { useState, useEffect } from "react";
+
+// types
 import type { Step } from "../types/Step";
+import type { ActiveHighlight } from "../types/Cube";
 
 const ARRAY_SIZE = 10;
 const MAX_VALUE = 20;
 
-type RowKind = "input" | "count" | "output";
-type ActiveHighlight = {
-  row: RowKind;
-  index: number;
-  sourceRow?: RowKind; // optional, indicates why it's highlighted
-};
-
-
 export function useCountingSort() {
-  const [array, setArray] = useState<number[]>([]);
-  const [stepHistory, setStepHistory] = useState<Step[]>([]);
   const [isSorting, setIsSorting] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-
+  const [array, setArray] = useState<number[]>([]);
+  const [active, setActive] = useState<ActiveHighlight[]>([]);
+  const [stepHistory, setStepHistory] = useState<Step[]>([]);
   const [countArray, setCountArray] = useState<number[]>([]);
   const [outputArray, setOutputArray] = useState<(number | null)[]>(
     Array(ARRAY_SIZE).fill(null)
   );
-
-  const [active, setActive] = useState<ActiveHighlight[]>([]);
 
   useEffect(() => {
     resetArray();

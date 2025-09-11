@@ -1,51 +1,50 @@
-// src/components/countingSortGrid/CountingSortGrid.tsx
+// src/components/RadixSortGrid.tsx
 import { useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 // components
-import CubeRow from "../cubeRow/CubeRow";
+import CubeRow from "../components/cubeRow/CubeRow";
 
 // types
-import type { SortGridProps } from "../../types/SortGridProps";
+import type { SortGridProps } from "../types/SortGridProps";
 
 const ROW_GAP = -1.8;
-const DEFAULT_SLOTS = 10;
 
-const CountingSortGrid = ({
+const RadixSortingScene = ({
   input,
-  count,
+  bucket,
   output,
   active = [],
   showLabels = true,
 }: SortGridProps) => {
+  const DEFAULT_SLOTS = input.length;
+
   const inputRow = useMemo(() => {
     const arr: (number | null)[] = input.slice(0, DEFAULT_SLOTS);
     while (arr.length < DEFAULT_SLOTS) arr.push(null);
     return arr;
-  }, [input]);
+  }, [input, DEFAULT_SLOTS]);
 
-  const maxValue = useMemo(() => Math.max(...input, 0), [input]);
-
-  const countRow = useMemo(() => {
-    const arr: (number | null)[] = new Array(maxValue + 1)
-      .fill(0)
-      .map((_, i) => count[i] ?? 0);
+  const bucketRow = useMemo(() => {
+    const arr: (number | null)[] = new Array(10).fill(0).map((_, i) => bucket[i] ?? 0);
     return arr;
-  }, [count, maxValue]);
+  }, [bucket]);
 
   const outputRow = useMemo(() => {
     const arr: (number | null)[] = output.slice(0, DEFAULT_SLOTS);
     while (arr.length < DEFAULT_SLOTS) arr.push(null);
     return arr;
-  }, [output]);
+  }, [output, DEFAULT_SLOTS]);
 
   return (
-    <div style={{ width: "100%", height: "450px" }}>
-      <Canvas camera={{ position: [0, 0, 15], fov: 50 }}>
+    <div style={{ width: "100%", height: "500px" }}>
+      <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
         <ambientLight intensity={0.8} />
         <directionalLight position={[5, 10, 5]} intensity={0.6} />
+
         <group position={[0, 1.2, 0]}>
+          {/* Row 1: Input / Temp */}
           <CubeRow
             values={inputRow}
             y={0}
@@ -54,14 +53,16 @@ const CountingSortGrid = ({
             showLabels={showLabels}
           />
 
+          {/* Row 2: Bucket row (digits 0-9) */}
           <CubeRow
-            values={countRow}
+            values={bucketRow}
             y={ROW_GAP}
-            kind="count"
-            active={active.filter((a) => a.row === "count")}
+            kind="bucket"
+            active={active.filter((a) => a.row === "bucket")}
             showLabels={showLabels}
           />
 
+          {/* Row 3: Final output */}
           <CubeRow
             values={outputRow}
             y={ROW_GAP * 2}
@@ -77,4 +78,4 @@ const CountingSortGrid = ({
   );
 };
 
-export default CountingSortGrid;
+export default RadixSortingScene;
