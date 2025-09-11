@@ -12,16 +12,14 @@ export function useTimSort() {
   const [stepHistory, setStepHistory] = useState<Step[]>([]);
   const [isSorting, setIsSorting] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-
   const [comparisons, setComparisons] = useState(0);
   const [merges, setMerges] = useState(0);
   const [shifts, setShifts] = useState(0);
   const [inserts, setInserts] = useState(0);
-
   const [comparingIndices, setComparingIndices] = useState<number[]>([]);
   const [insertingIndices, setInsertingIndices] = useState<number[]>([]);
   const [mergingIndices, setMergingIndices] = useState<number[]>([]);
-
+  
   useEffect(() => {
     resetArray();
   }, []);
@@ -56,25 +54,33 @@ export function useTimSort() {
       const key = arr[i];
       let j = i - 1;
 
+      // Update the UI with the element being held
+      setInsertingIndices([i]);
+      setArray([...arr]);
+      await new Promise((r) => setTimeout(r, 200));
       while (j >= left && arr[j] > key) {
-        // Comparison with held element (-1)
-        setComparingIndices([j, -1]);
-        recordStep("comparison", [j, -1], [...arr]);
+        // Update the UI with the comparison
+        setComparingIndices([j, i]);
+        // setArray([...arr]);
+        recordStep("comparison", [j, i], [...arr]);
         await new Promise((r) => setTimeout(r, 200));
 
-        // Shift element
+        // Shift the element
         arr[j + 1] = arr[j];
+        //setArray([...arr]);
         recordStep("shift", [j, j + 1], [...arr]);
+        await new Promise((r) => setTimeout(r, 200));
         j--;
       }
 
-      // Insert held element
+      // Insert the held element
       arr[j + 1] = key;
-      recordStep("insert", [j + 1], [...arr]);
       setInsertingIndices([j + 1]);
       setArray([...arr]);
-
+      recordStep("insert", [j + 1], [...arr]);
       await new Promise((r) => setTimeout(r, 200));
+      // Clear highlighting after the step is complete
+      setComparingIndices([]);
       setInsertingIndices([]);
     }
   };
@@ -85,12 +91,10 @@ export function useTimSort() {
     let j = mid + 1;
     const mergeIndices = Array.from({ length: right - left + 1 }, (_, idx) => left + idx);
     setMergingIndices(mergeIndices);
-
     while (i <= mid && j <= right) {
       setComparingIndices([i, j]);
       recordStep("comparison", [i, j], [...arr]);
       await new Promise((r) => setTimeout(r, 150));
-
       if (arr[i] <= arr[j]) {
         temp.push(arr[i]);
         i++;
@@ -99,12 +103,9 @@ export function useTimSort() {
         j++;
       }
     }
-
     while (i <= mid) temp.push(arr[i++]);
     while (j <= right) temp.push(arr[j++]);
-
     for (let k = 0; k < temp.length; k++) arr[left + k] = temp[k];
-
     recordStep("merge", mergeIndices, [...arr]);
     setArray([...arr]);
     setComparingIndices([]);
@@ -125,7 +126,6 @@ export function useTimSort() {
       for (let left = 0; left < n; left += 2 * size) {
         const mid = Math.min(n - 1, left + size - 1);
         const right = Math.min(left + 2 * size - 1, n - 1);
-
         if (mid < right) {
           await merge(arr, left, mid, right);
         }
@@ -137,10 +137,8 @@ export function useTimSort() {
   const handleSort = async () => {
     if (isSorting) return;
     setIsSorting(true);
-
     const arrCopy = [...array];
     await timSort(arrCopy);
-
     setArray(arrCopy);
     setIsSorting(false);
     setIsFinished(true);

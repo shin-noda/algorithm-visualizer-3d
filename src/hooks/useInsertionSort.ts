@@ -44,34 +44,45 @@ export function useInsertionSort() {
     if (type === "insert") setInserts((i) => i + 1);
   };
 
-  const insertionSort = async (arr: number[]) => {
-    const n = arr.length;
-    for (let i = 1; i < n; i++) {
+  // The 'left' and 'right' parameters are for when this function is
+  // used as part of another sorting algorithm like Quicksort or Mergesort.
+  // We'll keep them for correctness but they'll be hardcoded to the full array.
+  const insertionSort = async (arr: number[], left: number, right: number) => {
+    for (let i = left + 1; i <= right; i++) {
       const key = arr[i];
       let j = i - 1;
 
-      // Shift elements greater than key
-      while (j >= 0 && arr[j] > key) {
-        // comparison with held element (-1 marks key)
-        setComparingIndices([j, -1]);
-        recordStep("comparison", [j, -1], [...arr]);
+      // Update the UI with the element being held
+      setInsertingIndices([i]);
+      setArray([...arr]);
+      await new Promise((r) => setTimeout(r, 200));
+
+      while (j >= left && arr[j] > key) {
+        // Update the UI with the comparison
+        setComparingIndices([j, i]);
+        //setArray([...arr]);
+        recordStep("comparison", [j, i], [...arr]);
         await new Promise((r) => setTimeout(r, 200));
 
+        // Shift the element
         arr[j + 1] = arr[j];
+        //setArray([...arr]);
         recordStep("shift", [j, j + 1], [...arr]);
+        await new Promise((r) => setTimeout(r, 200));
+        
         j--;
       }
 
-      // Insert held element at correct position if it actually moves
-      if (j + 1 !== i) {
-        arr[j + 1] = key;
-        recordStep("insert", [j + 1], [...arr]);
-        setInsertingIndices([j + 1]);
-        setArray([...arr]);
-
-        await new Promise((r) => setTimeout(r, 200));
-        setInsertingIndices([]);
-      }
+      // Insert the held element
+      arr[j + 1] = key;
+      setInsertingIndices([j + 1]);
+      setArray([...arr]);
+      recordStep("insert", [j + 1], [...arr]);
+      await new Promise((r) => setTimeout(r, 200));
+      
+      // Clear highlighting after the step is complete
+      setComparingIndices([]);
+      setInsertingIndices([]);
     }
   };
 
@@ -80,7 +91,8 @@ export function useInsertionSort() {
     setIsSorting(true);
 
     const arrCopy = [...array];
-    await insertionSort(arrCopy);
+    // Pass the correct parameters for the entire array
+    await insertionSort(arrCopy, 0, arrCopy.length - 1);
 
     setArray(arrCopy);
     setIsSorting(false);
