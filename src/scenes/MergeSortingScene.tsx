@@ -14,7 +14,7 @@ const MergeSortingScene: FC<SortingSceneProps> = ({
   barWidth = 0.8,
 }) => {
   const maxVal = Math.max(...arr);
-  const yOffset = -4;
+  const yOffset = -3;
 
   return (
     <group position={[0, yOffset, 0]}>
