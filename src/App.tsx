@@ -12,6 +12,7 @@ import SelectionSort from "./pages/selectionSort/SelectionSort";
 import QuickSort from "./pages/quickSort/QuickSort";
 import MergeSort from "./pages/mergeSort/MergeSort";
 import HeapSort from "./pages/heatSort/HeapSort";
+import ShellSort from "./pages/shellSort/ShellSort";
 
 // CSS
 import './App.css'
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/quick-sort" element={<QuickSort />} />
           <Route path="/merge-sort" element={<MergeSort />} />
           <Route path="/heap-sort" element={<HeapSort />} />
+          <Route path="/shell-sort" element={<ShellSort />} />
         </Routes>
         <Footer />
       </div>

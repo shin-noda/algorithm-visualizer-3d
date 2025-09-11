@@ -18,6 +18,12 @@ const algorithms = [
     route: "/selection-sort",
   },
   {
+    name: "Shell Sort",
+    description:
+      "An optimization of insertion sort that starts by comparing elements far apart and gradually reduces the gap, improving efficiency for larger arrays.",
+    route: "/shell-sort",
+  },
+  {
     name: "Quick Sort",
     description:
       "Divides the array using a pivot, then recursively sorts the partitions. Efficient for large datasets with average O(n log n) time complexity.",
