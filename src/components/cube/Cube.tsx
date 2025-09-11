@@ -4,25 +4,23 @@ import { Edges, Text } from "@react-three/drei";
 interface CubeProps {
   value: number | null;
   position: [number, number, number];
-  highlighted?: boolean;
   label?: string | number | null;
   size?: number;
+  color?: number;
 }
-
-const DEFAULT_SIZE = 0.9;
 
 const Cube = ({
   position,
-  highlighted = false,
   label = null,
-  size = DEFAULT_SIZE,
+  size = 0.9,
+  color,
 }: CubeProps) => {
   return (
     <group position={position}>
       <mesh>
         <boxGeometry args={[size, size, size]} />
         <meshStandardMaterial transparent opacity={0} />
-        <Edges color={highlighted ? "#f43f5e" : "#f8f8f8"} />
+        <Edges color={color} />
       </mesh>
       {label !== null && (
         <Text

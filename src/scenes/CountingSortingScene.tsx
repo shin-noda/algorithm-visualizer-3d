@@ -6,7 +6,8 @@ interface CountingSortingSceneProps {
   input: number[];
   count: number[];
   output: (number | null)[];
-  active: { row: "input" | "count" | "output"; index: number } | null;
+  active?: { row: "input" | "count" | "output"; index: number }[];
+  showLabels?: boolean;
 }
 
 const CountingSortingScene = ({

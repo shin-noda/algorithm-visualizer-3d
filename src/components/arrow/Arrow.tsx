@@ -1,4 +1,5 @@
 // src/components/arrow/Arrow.tsx
+import { Edges } from "@react-three/drei";
 import type { FC } from "react";
 
 interface ArrowProps {
@@ -16,13 +17,15 @@ const Arrow: FC<ArrowProps> = ({ index, arr, color }) => {
       {/* Shaft */}
       <mesh position={[0, -4, 0]}>
         <cylinderGeometry args={[0.1, 0.1, 1, 8]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial transparent opacity={0} />
+        <Edges color={color} />
       </mesh>
 
       {/* Tip */}
       <mesh position={[0, -4.5, 0]} rotation={[Math.PI, 0, 0]}>
         <coneGeometry args={[0.2, 0.3, 8]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial transparent opacity={0} />
+        <Edges color={color} />
       </mesh>
     </group>
   );

@@ -6,11 +6,17 @@ type RowKind = "input" | "count" | "output";
 
 const CUBE_SIZE = 0.9;
 
+export interface ActiveHighlight {
+  row: RowKind;
+  index: number;
+  sourceRow?: RowKind; // optional, indicates source of highlight
+}
+
 interface CubeRowProps {
   values: (number | null)[];
   y: number;
   kind: RowKind;
-  activeIndex?: number | null;
+  active?: ActiveHighlight[];
   showLabels?: boolean;
 }
 
@@ -18,7 +24,7 @@ const CubeRow = ({
   values,
   y,
   kind,
-  activeIndex = null,
+  active = [],
   showLabels = true,
 }: CubeRowProps) => {
   const n = values.length;
@@ -27,14 +33,34 @@ const CubeRow = ({
   return (
     <group position={[0, y, 0]}>
       {values.map((v, i) => {
-        const x = (i - offset) * (CUBE_SIZE + 0.15);
-        const highlighted = activeIndex != null && activeIndex === i;
+        // check if cube is highlighted
+        const highlightObj = active.find((a) => a.index === i && a.row === kind);
+        const highlighted = !!highlightObj;
+
+        // determine color
+        let cubeColor = 0xffffff; // default
+        if (highlighted) {
+          if (kind === "count") {
+            cubeColor = highlightObj?.sourceRow === "input" ? 0x3b82f6 : 0xff0000; // blue if triggered by input, red otherwise
+          } else {
+            cubeColor = 0xff0000; // input/output always red
+          }
+        }
+
         const label = showLabels ? (v === null ? "" : v) : null;
+
+        const x = (i - offset) * (CUBE_SIZE + 0.15);
 
         return (
           <group key={`${kind}-${i}`} position={[x, 0, 0]}>
             {/* Cube */}
-            <Cube value={v} highlighted={highlighted} position={[0, 0, 0]} label={label} size={CUBE_SIZE} />
+            <Cube
+              value={v}
+              color={cubeColor}
+              position={[0, 0, 0]}
+              label={label}
+              size={CUBE_SIZE}
+            />
 
             {/* Index below the cube */}
             {showLabels && (
@@ -43,7 +69,7 @@ const CubeRow = ({
                 fontSize={0.25}
                 anchorX="center"
                 anchorY="middle"
-                color={highlighted ? "#ff0000" : "#555"} // highlight index if cube is active
+                color={highlighted ? cubeColor : "#555"} // match cube color
               >
                 [{i}]
               </Text>
