@@ -1,22 +1,20 @@
 // src/scenes/SortingScene.tsx
-import type { FC } from "react";
-
 // components
 import Bar from "../components/bar/Bar";
 
 // types
 import type { SortingSceneProps } from "../types/SortingSceneProps";
 
-const SortingScene: FC<SortingSceneProps> = ({
+const SortingScene = ({
   arr,
   swapping,
   maxBarHeight = 5,
   barWidth = 0.8,
-}) => {
+}: SortingSceneProps) => {
   const maxVal = Math.max(...arr);
 
   // Optional: offset all bars down by 1 or 2 units
-  const yOffset = -3;
+  const yOffset = -4;
 
   return (
     <group position={[0, yOffset, 0]}>
