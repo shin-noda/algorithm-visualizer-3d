@@ -6,13 +6,14 @@ import Footer from "./components/footer/Footer";
 import Main from "./components/main/Main";
 
 // pages
-import BubbleSort from "./pages/bubbleSort/BubbleSort";
-import InsertionSort from "./pages/insertionSort/InsertionSort";
-import SelectionSort from "./pages/selectionSort/SelectionSort";
-import QuickSort from "./pages/quickSort/QuickSort";
-import MergeSort from "./pages/mergeSort/MergeSort";
-import HeapSort from "./pages/heatSort/HeapSort";
-import ShellSort from "./pages/shellSort/ShellSort";
+import BubbleSort from "./pages/BubbleSort";
+import InsertionSort from "./pages/InsertionSort";
+import SelectionSort from "./pages/SelectionSort";
+import QuickSort from "./pages/QuickSort";
+import MergeSort from "./pages/MergeSort";
+import HeapSort from "./pages/HeapSort";
+import ShellSort from "./pages/ShellSort";
+import TimSort from "./pages/TimSort";
 
 // CSS
 import './App.css'
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/merge-sort" element={<MergeSort />} />
           <Route path="/heap-sort" element={<HeapSort />} />
           <Route path="/shell-sort" element={<ShellSort />} />
+          <Route path="/tim-sort" element={<TimSort />} />
         </Routes>
         <Footer />
       </div>
