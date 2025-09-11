@@ -38,5 +38,20 @@
     "name": "Tim Sort",
     "description": "A hybrid sorting algorithm that combines insertion sort for small runs and merge sort for merging them. Efficient, stable, and used in Python and Java’s built-in sorts.",
     "route": "/tim-sort"
+  },
+  {
+    "name": "Counting Sort",
+    "description": "A non-comparison-based algorithm that counts occurrences of each value to determine their correct positions. Works best for integers within a limited range.",
+    "route": "/counting-sort"
+  },
+  {
+    "name": "Radix Sort",
+    "description": "Sorts numbers digit by digit, often using counting sort as a subroutine. Efficient for large datasets of integers with limited digit length.",
+    "route": "/radix-sort"
+  },
+  {
+    "name": "Bucket Sort",
+    "description": "Distributes elements into multiple buckets, then sorts each bucket individually (often with insertion sort) before merging them. Useful for uniformly distributed data.",
+    "route": "/bucket-sort"
   }
 ]

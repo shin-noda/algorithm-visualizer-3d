@@ -17,6 +17,7 @@ import TimSort from "./pages/TimSort";
 
 // CSS
 import './App.css'
+import CountingSort from "./pages/CountingSort";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/heap-sort" element={<HeapSort />} />
           <Route path="/shell-sort" element={<ShellSort />} />
           <Route path="/tim-sort" element={<TimSort />} />
+          <Route path="/counting-sort" element={<CountingSort />} />
         </Routes>
         <Footer />
       </div>

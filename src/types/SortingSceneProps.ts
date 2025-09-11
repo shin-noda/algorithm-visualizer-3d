@@ -1,5 +1,5 @@
 export interface SortingSceneProps {
-  arr: (number | null)[];
+  arr: number[];
   swapping?: number[];
   comparing?: number[]; // indices currently being compared
   shifting?: number[];  // indices currently being shifted
