@@ -1,9 +1,8 @@
-// src/scenes/heapSortingScene/HeapSortingScene.tsx
+// src/scenes/HeapSortingScene.tsx
 import type { FC } from "react";
-import { Text } from "@react-three/drei";
 
-// css
-import "./HeapSortingScene.css";
+// components
+import Bar from "../components/bar/Bar";
 
 interface HeapSortingSceneProps {
   arr: number[];
@@ -35,21 +34,15 @@ const HeapSortingScene: FC<HeapSortingSceneProps> = ({
         }
 
         return (
-          <group key={index} position={[index - arr.length / 2, height / 2, 0]}>
-            <mesh>
-              <boxGeometry args={[barWidth, height, barWidth]} />
-              <meshStandardMaterial color={color} />
-            </mesh>
-            <Text
-              position={[0, height / 2 + 0.5, 0]}
-              fontSize={0.5}
-              color="black"
-              anchorX="center"
-              anchorY="middle"
-            >
-              {value}
-            </Text>
-          </group>
+          <Bar
+            key={index}
+            value={value}
+            index={index}
+            arrLength={arr.length}
+            barWidth={barWidth}
+            color={color}
+            height={height}
+          />
         );
       })}
     </group>
