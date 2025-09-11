@@ -18,8 +18,7 @@ import HeapSort from "./pages/HeapSort";
 import ShellSort from "./pages/ShellSort";
 import TimSort from "./pages/TimSort";
 import CountingSort from "./pages/CountingSort";
-
-
+import RadixSort from "./pages/RadixSort";
 
 const App = () => {
   return (
@@ -37,6 +36,7 @@ const App = () => {
           <Route path="/shell-sort" element={<ShellSort />} />
           <Route path="/tim-sort" element={<TimSort />} />
           <Route path="/counting-sort" element={<CountingSort />} />
+          <Route path="/radix-sort" element={<RadixSort />} />
         </Routes>
         <Footer />
       </div>

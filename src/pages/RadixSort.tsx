@@ -1,31 +1,31 @@
-// src/pages/CountingSort.tsx
-import { useCountingSort } from "../hooks/useCountingSort";
+// src/pages/RadixSort.tsx
+import { useRadixSort } from "../hooks/useRadixSort";
 
 // components
 import ComplexityTable from "../components/complexityTable/ComplexityTable";
 import NonComparisonMiddleBar from "../components/nonComparisonMiddleBar/NonComparisonMiddleBar";
 
 // scenes
-import CountingSortingScene from "../scenes/CountingSortingScene";
+import RadixSortingScene from "../scenes/RadixSortingScene";
 
-const CountingSort = () => {
+const RadixSort = () => {
   const {
     array,
-    countArray,
+    bucketArray,
     outputArray,
     active,
     isSorting,
     isFinished,
     resetArray,
     handleSort,
-  } = useCountingSort();
+  } = useRadixSort();
 
   return (
     <div className="main">
-      <h1>Counting Sort</h1>
+      <h1>Radix Sort</h1>
 
       <ComplexityTable
-        timeComplexity={{ best: "O(n + k)", average: "O(n + k)", worst: "O(n + k)" }}
+        timeComplexity={{ best: "O(nk)", average: "O(nk)", worst: "O(nk)" }}
         spaceComplexity="O(n + k)"
         stability="Stable"
       />
@@ -38,17 +38,16 @@ const CountingSort = () => {
         onStart={handleSort}
       />
 
-      {/* 3D Sorting Scene */}
-      <CountingSortingScene
+      {/* 3D Radix Sort Scene */}
+      <RadixSortingScene
         input={array}
-        count={countArray}
+        bucket={bucketArray}
         output={outputArray}
         active={active}
         showLabels={true}
-        bucket={[]}
-        />
+        count={[]}/>
     </div>
   );
 };
 
-export default CountingSort;
+export default RadixSort;
