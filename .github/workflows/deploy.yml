@@ -6,6 +6,9 @@ on:
     branches:
       - main  # Only run on pushes to main
 
+permissions:
+  contents: write  # Give GitHub Actions permission to push
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest  # Use the latest Ubuntu environment
