@@ -15,6 +15,7 @@ interface CubeRowProps {
   kind: RowKind;
   active?: ActiveHighlight[];
   showLabels?: boolean;
+  showDigitLabels?: boolean;
 }
 
 const CubeRow = ({
@@ -23,6 +24,7 @@ const CubeRow = ({
   kind,
   active = [],
   showLabels = true,
+  showDigitLabels = true,
 }: CubeRowProps) => {
   // Render digit labels above cube (for radix sort)
   const renderDigitLabels = (v: number, highlight?: ActiveHighlight) => {
@@ -62,6 +64,7 @@ const CubeRow = ({
       active={active}
       showLabels={showLabels}
       renderDigitLabels={renderDigitLabels}
+      showDigitLabels={showDigitLabels}
     />
   );
 };
