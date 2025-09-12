@@ -19,6 +19,7 @@ interface CubeRowContentProps {
   showLabels?: boolean;
   showFinal?: boolean; // only show output numbers after sorting finished
   renderDigitLabels: (v: number, highlight?: ActiveHighlight) => JSX.Element;
+  showDigitLabels?: boolean;
 }
 
 const CubeRowContent = ({
@@ -28,6 +29,7 @@ const CubeRowContent = ({
   active = [],
   showLabels = true,
   renderDigitLabels,
+  showDigitLabels = true, // default true
 }: CubeRowContentProps) => {
   const n = values.length;
   const offset = (n - 1) / 2;
@@ -73,7 +75,7 @@ const CubeRowContent = ({
             )}
 
             {/* Digit labels above cube (skip for output row) */}
-            {v !== null && kind !== "output" && renderDigitLabels(v, highlightObj)}
+            {showDigitLabels && v !== null && kind !== "output" && renderDigitLabels(v, highlightObj)}
 
             {/* Index below cube */}
             {showLabels && (
